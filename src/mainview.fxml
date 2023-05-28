@@ -61,10 +61,10 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Button layoutX="836.0" layoutY="82.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="69.0" text="create" />
-            <Button layoutX="836.0" layoutY="159.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="69.0" text="copy" />
-            <Button layoutX="836.0" layoutY="237.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="69.0" text="paste" />
-            <Button layoutX="836.0" layoutY="322.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="69.0" text="delete" />
+            <Button fx:id ="btnCreate" layoutX="836.0" layoutY="82.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="69.0" text="create" />
+            <Button fx:id ="btnCopy" layoutX="836.0" layoutY="159.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="69.0" text="copy" />
+            <Button fx:id ="btnPaste" layoutX="836.0" layoutY="237.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="69.0" text="paste" />
+            <Button fx:id ="btnDelete" layoutX="836.0" layoutY="322.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="69.0" text="delete" />
           </children>
        </Pane>
    </children>
