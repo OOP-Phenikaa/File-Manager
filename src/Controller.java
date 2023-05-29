@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.*;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import java.util.Stack;
@@ -91,7 +93,6 @@ public class Controller implements Initializable {
         rootNode=new FileTreeItem(hostName);
         treeView.setRoot(rootNode);
         FileTreeItem currItem= getItemFromAddress(System.getProperty("user.dir"));
-        //FileTreeItem currItem= getItemFromAddress("/home");
 
         treeView.getSelectionModel().select(currItem);
         showItems(currItem);
@@ -151,15 +152,11 @@ public class Controller implements Initializable {
                     if(rowData.getItem().isDirectory())
                     {
                         showItems(rowData.getItem());
-                        //addTileItems(rowData.getItem());
+
                     }
                     else
                     {
-                        /*try {
-                            Desktop.getDesktop().open(rowData.getItem().getFile());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }*/
+
                         try {
                             if( Desktop.isDesktopSupported() )
                             {
@@ -189,7 +186,7 @@ public class Controller implements Initializable {
                             current=backlist.pop();
                             System.out.println("Stack Poped -> "+current.getAbsolutePath());
                             showItems(current);
-                           //addTileItems(current);
+
                         }
                         else {
                             System.out.println("Stack Pushed -> "+current.getAbsolutePath());
@@ -204,16 +201,60 @@ public class Controller implements Initializable {
                 {
                     if(!backlist.peek().getAbsolutePath().equals(hostName) && backlist.peek().getFile().getParent()==null){
                         showItems(rootNode);
-                        //addTileItems(rootNode);
+
                     }
                     else if (!backlist.peek().getAbsolutePath().equals(hostName) && backlist.peek().getFile().getParent()!=null) {
                         System.out.println(" Parent : " + backlist.peek().getFile().getParent());
                         FileTreeItem item = getItemFromAddress(backlist.peek().getFile().getParent());
                         showItems(item);
-                        //addTileItems(item);
+
                     }
                 }
         );
+        btnCreate.setOnMouseClicked(event ->{
+
+        });
+        btnCopy.setOnMouseClicked(event ->{
+            String source = currItem.getFile().getAbsolutePath();
+            // Tạo đường dẫn đích để paste
+            String destination ="user.dir";
+
+            // Copy file bằng Files.copy()
+            try {
+                Files.copy(Paths.get(source), Paths.get(destination));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        btnPaste.setOnMouseClicked(event ->{
+            String source = currItem.getFile().getAbsolutePath();
+        // Tạo đường dẫn đích để paste
+            String destination ="user.dir";
+            // Copy file bằng Files.copy()
+            try {
+        Files.copy(Paths.get(source), Paths.get(destination));
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }
+        });
+        btnDelete.setOnMouseClicked(event ->{
+            if(currItem.getFile().isFile()) {
+                try {
+                    Files.delete(currItem.getFile().toPath());
+                    showItems((FileTreeItem) currItem.getParent());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Không thể xóa file");
+                }
+            } else {
+                System.out.println("không thể xóa file");
+            }
+        });
+
     }
 
     private void addTileItems(FileTreeItem item) {
